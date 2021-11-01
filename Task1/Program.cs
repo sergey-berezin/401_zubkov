@@ -14,10 +14,10 @@ namespace Task1 {
             Console.WriteLine("Enter the path to the directory with images.");
 
             var cts = new CancellationTokenSource();
-            var cancelTask = Task.Run(() => {
+            var cancelTask = Task.Factory.StartNew(() => {
                 while (Console.ReadKey(true).Key != ConsoleKey.Escape) ;
                 test.Cancel();
-            }, cts.Token);
+            }, cts.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 
             string directoryPath = Console.ReadLine();
 
