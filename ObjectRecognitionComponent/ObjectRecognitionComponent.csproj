@@ -9,7 +9,8 @@
     <PackageReference Include="Microsoft.ML.ImageAnalytics" Version="1.6.0" />
     <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.8.1" />
     <PackageReference Include="Microsoft.ML.OnnxTransformer" Version="1.6.0" />
-    <PackageReference Include="ShellProgressBar" Version="5.1.0" />
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
+    <PackageReference Include="System.Reactive.Core" Version="5.0.0" />
     <PackageReference Include="System.Threading.Tasks.Dataflow" Version="5.0.0" />
   </ItemGroup>
 

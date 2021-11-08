@@ -1,5 +1,7 @@
 ﻿using ObjectRecognitionComponent;
+using ShellProgressBar;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,7 +17,7 @@ namespace Task1 {
 
             var cts = new CancellationTokenSource();
             var cancelTask = Task.Factory.StartNew(() => {
-                while (Console.ReadKey(true).Key != ConsoleKey.Escape) ;
+                while (Console.ReadKey(true).Key != ConsoleKey.Escape)
                 test.Cancel();
             }, cts.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 
@@ -23,11 +25,15 @@ namespace Task1 {
 
             Console.WriteLine("Press ESC to stop process");
 
-            try {
-                var categories = await test.RunObjectRecognizer(directoryPath);
+            int cntImage = test.GetImagePath(directoryPath);
 
+            try {
+                var categories = new Dictionary<string, List<Tuple<string, YOLOv4MLNet.DataStructures.YoloV4Result>>>();
+                using (var progressBar = new ProgressBar(cntImage, "Image processing...")) {
+                    categories = await test.RunObjectRecognizer(progressBar.AsProgress<int>());
+                }
                 foreach (var (key, val) in categories) {
-                    Console.WriteLine($"{key}: {val};");
+                    Console.WriteLine($"{key}: {val.Count};");
                 }
 
                 cts.Cancel();
