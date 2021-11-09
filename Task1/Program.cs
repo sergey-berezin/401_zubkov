@@ -17,7 +17,7 @@ namespace Task1 {
 
             var cts = new CancellationTokenSource();
             var cancelTask = Task.Factory.StartNew(() => {
-                while (Console.ReadKey(true).Key != ConsoleKey.Escape)
+                while (Console.ReadKey(true).Key != ConsoleKey.Escape) { }
                 test.Cancel();
             }, cts.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 
