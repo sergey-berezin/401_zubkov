@@ -1,0 +1,133 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:UI.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:inf="using:UI.Infrastructure"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="UI.Views.MainWindow"
+        Icon="\Assets\avalonia-logo.ico"
+        WindowState="Normal"
+        WindowStartupLocation="CenterScreen"
+        Title="{Binding Title}">      
+  
+  
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Window.Resources>
+        <inf:ImageCarouselConverter x:Key="CarouselConverter"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid Name="Categories" Row="0" Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Center"
+                       Margin="10 5"
+                       Text="Список категорий" />
+
+            <ListBox Grid.Row="1"
+                     Margin="10 10"
+                     Items="{Binding NameCategories}"
+                     SelectedItem="{Binding SelectedNameСategory}"/>
+        </Grid>
+        
+        <Grid Name="ObjectCategory" Row="0" Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Center"
+                     Margin="10 5"
+                     Text="Объект категории"/>
+
+            <Carousel Name="ImageCarousel" Grid.Row="1"
+                      Margin="10 10"
+                      Items="{Binding SelectedCategory}">
+                <Carousel.PageTransition>
+                    <PageSlide Duration="0.25" Orientation="Vertical" />
+                </Carousel.PageTransition>
+                <Carousel.ItemTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding Converter={StaticResource CarouselConverter}}"/>
+                    </DataTemplate>
+                </Carousel.ItemTemplate>
+            </Carousel>
+
+            <Grid Name="ToolBar" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="200"></ColumnDefinition>
+                    <ColumnDefinition Width="200"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Center"
+                           Margin="10 10"
+                           Text="{Binding SelectedNameСategory, StringFormat=Выбранная категория: {0}}" />
+
+                <Button Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Margin="10 10"
+                        Content="Назад"
+                        Command="{Binding ImageCarouselPrevious}"/>
+
+                <Button Grid.Column="2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Margin="10 10"
+                        Content="Вперед"
+                        Command="{Binding ImageCarouselNext}"/>
+            </Grid>
+        </Grid>
+
+        <Grid Name="StatusBar" Row="1" Column="0" ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <ProgressBar Name="RecognizeProgressBar" Grid.Column="0"
+                         Orientation="Horizontal"
+                         Margin="10 10"
+                         Height="30"/>
+
+            <Button Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Margin="10 10"
+                    Content="Выбрать директорию"
+                    Command="{Binding OpenFolderDialogCommand}"/>
+
+            <Button Grid.Column="2"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Margin="10 10"
+                    Content="Отмена"
+                    Command="{Binding CancelCommand}"/>
+        </Grid>
+    </Grid>
+</Window>
