@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace YOLOv4MLNet.DataStructures {
-    public class YoloV4Prediction {
+namespace Core.ObjectRecognitionComponent.DataStructures {
+    internal class YoloV4Prediction {
         // https://github.com/hunglc007/tensorflow-yolov4-tflite/blob/master/data/anchors/yolov4_anchors.txt
         static readonly float[][][] ANCHORS = new float[][][]
         {

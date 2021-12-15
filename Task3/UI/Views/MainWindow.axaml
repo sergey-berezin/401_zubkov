@@ -1,0 +1,144 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:UI.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:inf="using:UI.Infrastructure"
+        Width="1600" Height="800" 
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="700"
+        x:Class="UI.Views.MainWindow"
+        Icon="\Assets\avalonia-logo.ico"
+        WindowState="Normal"
+        WindowStartupLocation="CenterScreen"
+        Title="{Binding Title}">      
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Window.Resources>
+        <inf:ImageCarouselConverter x:Key="CarouselConverter"/>
+    </Window.Resources>
+
+    <DockPanel>
+        <DockPanel Name="StatusBar" DockPanel.Dock="Bottom">
+            <Border Classes="Card">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="15"></ColumnDefinition>
+                        <ColumnDefinition Width="200"></ColumnDefinition>
+                        <ColumnDefinition Width="15"></ColumnDefinition>
+                        <ColumnDefinition Width="200"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    
+                    <ProgressBar Name="RecognizeProgressBar" Grid.Column="0"
+                                 Orientation="Horizontal"
+                                 Margin="0 5"
+                                 Height="30"/>
+                    
+                    <Button Classes="Primary" Grid.Column="2"
+                            Command="{Binding OpenFolderDialogCommand}">
+                        <TextBlock Text="Выбрать директорию"/>
+                    </Button>
+                    
+                    <Button Classes="Primary" Grid.Column="4"
+                            Command="{Binding CancelCommand}">
+                        <TextBlock Text="Отмена"/>
+                    </Button>
+                </Grid>
+            </Border>
+        </DockPanel>
+        
+        <Grid Name="Content">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            
+            <DockPanel Name="Category" Grid.Column="0" 
+                       Margin="5">
+                <Border Classes="Card">
+                    <DockPanel>
+                        <TextBlock Classes="Heading" DockPanel.Dock="Top"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Center"
+                                   Margin="0 0 0 10"
+                                   Text="Список категорий" />
+
+                        <Grid DockPanel.Dock="Bottom">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="200"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <Button Classes="Primary" Grid.Column="1"
+                                    Command="{Binding RemoveCommand}">
+                                <TextBlock Text="Удалить"/>
+                            </Button>
+                        </Grid>
+
+                        <ListBox Items="{Binding NameCategories}"
+                                 SelectionMode="Single"
+                                 SelectedItem="{Binding SelectedNameСategory, Mode=OneWayToSource}"
+                                 VirtualizationMode="None"/>
+
+                    </DockPanel>
+                </Border>
+            </DockPanel>
+            
+            <DockPanel Name="ObjectCategory" Grid.Column="1"
+                       Margin="5">
+                <Border Classes="Card">
+                    <DockPanel>
+                        <TextBlock Classes="Heading" DockPanel.Dock="Top"
+                                           HorizontalAlignment="Stretch"
+                                           VerticalAlignment="Center"
+                                           Margin="0 0 0 5"
+                                           Text="Объект категории"/>
+                        
+                        <Grid Name="ToolBar" DockPanel.Dock="Bottom">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="15"></ColumnDefinition>
+                                <ColumnDefinition Width="200"></ColumnDefinition>
+                                <ColumnDefinition Width="15"></ColumnDefinition>
+                                <ColumnDefinition Width="200"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            
+                            <TextBlock Grid.Column="0"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Center"
+                                       Text="{Binding SelectedNameСategory, StringFormat=Выбранная категория: {0}}" />
+
+                          <Button Classes="Primary" Grid.Column="2"
+                                  Command="{Binding ImageCarouselPrevious}">
+                              <TextBlock Text="Назад"/>
+                          </Button>
+                            
+                            <Button Classes="Primary" Grid.Column="4"
+                                    Command="{Binding ImageCarouselNext}">
+                                <TextBlock Text="Вперед"/>
+                            </Button>
+                        </Grid>
+                        
+                        <Carousel Name="ImageCarousel"
+                                  Margin="10 10"
+                                  Items="{Binding SelectedCategory}"
+                                  SelectedItem="{Binding SelectedImage}">
+                            <Carousel.PageTransition>
+                                <PageSlide Duration="0.25" Orientation="Vertical" />
+                            </Carousel.PageTransition>
+                            <Carousel.ItemTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding Converter={StaticResource CarouselConverter}}"/>
+                                </DataTemplate>
+                            </Carousel.ItemTemplate>
+                        </Carousel>
+                    </DockPanel>
+                </Border>
+            </DockPanel>
+        </Grid>
+    </DockPanel>   
+</Window>

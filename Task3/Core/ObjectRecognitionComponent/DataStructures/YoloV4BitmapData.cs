@@ -2,8 +2,8 @@
 using Microsoft.ML.Transforms.Image;
 using System.Drawing;
 
-namespace ObjectRecognitionComponent.DataStructures {
-    public class YoloV4BitmapData {
+namespace Core.ObjectRecognitionComponent.DataStructures {
+    internal class YoloV4BitmapData {
         [ColumnName("bitmap")]
         [ImageType(416, 416)]
         public Bitmap Image { get; set; }

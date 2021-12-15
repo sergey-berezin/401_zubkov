@@ -1,5 +1,5 @@
-﻿namespace YOLOv4MLNet.DataStructures {
-    public class YoloV4Result {
+﻿namespace Core.ObjectRecognitionComponent.DataStructures {
+    internal class YoloV4Result {
         /// <summary>
         /// x1, y1, x2, y2 in page coordinates.
         /// <para>left, top, right, bottom.</para>
